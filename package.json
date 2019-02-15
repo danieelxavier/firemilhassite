@@ -1,0 +1,32 @@
+{
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-sass": "latest",
+    "gulp-uglify": "latest",
+    "gulp-rename": "latest",
+    "gulp-notify": "latest",
+    "gulp-minify-css": "latest",
+    "gulp-concat": "latest",
+    "gulp-plumber": "latest",
+    "browser-sync": "latest",
+    "gulp-sourcemaps": "latest",
+    "gulp-autoprefixer": "latest",
+    "gulp-clean-css": "latest"
+  },
+  "dependencies": {
+    "lightpick": "^1.2.11",
+    "nodemailer": "^5.1.1"
+  },
+  "name": "inspire",
+  "description": "THEME: Inspire - Free Bootstrap Theme AUTHOR: uiCookies.com AUTHOR URI: https://uiCookies.com/",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
