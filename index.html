@@ -67,14 +67,20 @@
 
           <div class="col-md-5 col-sm-pull-7 probootstrap-animate" data-animate-effect="fadeIn" >
               <!-- <h2>Drop us a line</h2> -->
-              <form method="POST" class="probootstrap-form form-box">
+              <form class="probootstrap-form form-box" id="form-fire" data-toggle="validator" role="form" autocomplete="off">
                 <div class="form-group form-fire">
                   <label for="origin">Origem</label>
-                  <input type="text" class="form-control" id="origin" name="origin">
+                  <div class="autocomplete">
+                    <input type="text" class="form-control" id="origin" name="origin" data-error="Por favor, informe a cidade de origem." required>
+                    <div class="help-block with-errors"></div>
+                  </div>
                 </div>
                 <div class="form-group form-fire">
                   <label for="destiny">Destino</label>
-                  <input type="text" class="form-control" id="destiny" name="destiny">
+                  <div class="autocomplete">
+                    <input type="text" class="form-control" id="destiny" name="destiny" data-error="Por favor, informe a cidade de destino." required>
+                    <div class="help-block with-errors"></div>
+                  </div>
                 </div>
                 <div class="form-group form-fire">
                   <label for="datepicker">Datas previstas</label>
@@ -83,25 +89,28 @@
                     <input type="text" id="datepicker2" class="form-control" name="date2" style="width: 48%; float:right">
                   </div>
                 </div>
-                <div class="form-group form-fire" style="margin-top:60px">
+                <div class="form-group form-fire">
                   <label for="payment">Forma de pagamento</label>
-                  <select class="form-control" id="payment" name="payment">
+                  <select class="form-control" id="payment" name="payment" data-error="Por favor, informe a forma de pagamento pretendida." required>
                     <option disabled selected>Selecionar forma de pagamento</option>
                     <option>Cartão de crédito</option>
                     <option>Boleto</option>
                     <option>Dinheiro</option>
                   </select>
+                  <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group form-fire">
-                  <label for="phone">Telefone</label>
-                  <input type="tel" class="form-control" id="phone" name="phone">
+                  <label for="phone">Telefone (What's App)</label>
+                  <input type="tel" class="form-control" id="phone" name="phone" data-error="Por favor, informe o seu telefone para contato." required>
+                  <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group form-fire">
                   <label for="email">Email</label>
-                  <input type="email" class="form-control" id="email" name="email">
+                  <input type="email" class="form-control" id="email" name="email" data-error="Por favor, informe um email válido." required>
+                  <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group form-fire" align="right">
-                  <input type="submit" class="btn btn-primary btn-lg" id="submit" name="submit" value="CONFIRMAR">
+                  <input type="button" class="btn btn-primary btn-lg" id="submit" name="submit" value="CONFIRMAR">
                 </div>
               </form>
             </div>
@@ -194,8 +203,47 @@
 
     <script src="js/scripts.min.js"></script>
     <script src="js/custom.min.js"></script>
+    <script src="js/validator.min.js"></script>
   </body>
+
+  <!-- Modal loading-->
+  <div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <div class="loader"></div>
+          <div class="loader-txt">
+            <p>Enviando informações... <br><br><small>Sua solicitação de atendimento vai alegrar nossos atendentes.</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </html>
+
+  <!-- Modal sucess-->
+  <div class="modal fade" id="responseModal" tabindex="-1" role="dialog" aria-labelledby="responseModal">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          <div class="title-response" id="titleResponse">
+            <p>Suas informações foram enviadas.</p>
+          </div> <br><br>
+          <div class="small-response" id="smallResponse">
+            <p>alguns minutos um de nossos atendentes entrará em contato.</p>
+          </div>
+          <div>
+            <input type="button" class="btn btn-primary btn-lg" id="oksucess" name="OK" value="OK">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</html>
+
+
+
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="lightpick.js"></script>
@@ -204,21 +252,219 @@
 </script>
 
 
-
 <script type="text/javascript">
  $(document).ready(function(){
         $('#submit').click(function(){
-             $.ajax({
-                   type: "GET",
-                   url: "mail.php",
-                   success: function(msg){
-                    console.log("SUCESSO DO j");         
-                    alert("SUCESSO DO JOTINHA!");                
-                    }
-                 })
+            console.log("clickou");  
+
+            var origin = $("#origin").val();
+            var destiny = $("#destiny").val();
+            var date1 = $("#datepicker").val();
+            var date2 = $("#datepicker2").val();
+            var payment = $("#payment").val();
+            var phone = $("#phone").val();
+            var email = $("#email").val();
+
+            var dataError = false;
+            var msgDataError = "";
+
+            if(origin == "") {
+              msgDataError = "Você deve informar a cidade de origem.";
+              dataError = true;
+            }
+            else if(destiny == "") {
+              msgDataError = "Você deve informar a cidade de destino.";
+              dataError = true;
+            }
+            else if(date1 == "") {
+              msgDataError = "Você deve informar a data prevista de partida.";
+              dataError = true;
+            }
+            else if(date2 == "") {
+              msgDataError = "Você deve informar a data prevista de retorno.";
+              dataError = true;
+            }
+            else if(payment == "") {
+              msgDataError = "Você deve informar a forma de pagamento.";
+              dataError = true;
+            }
+            else if(phone == "") {
+              msgDataError = "Você deve informar o telefone (What's App) para contato.";
+              dataError = true;
+            }
+            else if(email == "") {
+              msgDataError = "Você deve informar um email válido";
+              dataError = true;
+            }
+
+            if(dataError){
+              $('#titleResponse').replaceWith("Informações inválidas");
+              $('#smallResponse').replaceWith(msgDataError);
+              $("#responseModal").modal({
+                backdrop: "static", //remove ability to close modal with click
+                keyboard: false, //remove option to close with keyboard
+                show: true //Display loader!
+              });
+
+              return;
+            }
+
+            $("#loadMe").modal({
+              backdrop: "static", //remove ability to close modal with click
+              keyboard: false, //remove option to close with keyboard
+              show: true //Display loader!
+            });
+
+          $.ajax({
+            type: "POST",
+            data: { origin: origin, 
+                    destiny : destiny, 
+                    date1: date1, 
+                    date2: date2, 
+                    payment: payment,
+                    phone: phone, 
+                    email: email},
+            url: "mail.php",
+            dataType: "json",
+            complete: function (xhr, status,) {
+              if(status === 'error' || xhr.responseJSON['status'] === 'error'){
+                  console.log("ERROR: " + xhr.responseText);
+                  $("#loadMe").modal("hide");
+                  $('#titleResponse').replaceWith("Falha ao enviar os dados.");
+                  $('#smallResponse').replaceWith("Verifique as informações inseridas.");
+                  $("#responseModal").modal({
+                    backdrop: "static", //remove ability to close modal with click
+                    keyboard: false, //remove option to close with keyboard
+                    show: true //Display loader!
+                  });
+              }
+              else{
+                  console.log("SUCESS: " + xhr.responseText);
+                  $("#loadMe").modal("hide");
+                  $('#titleResponse').replaceWith("Suas informações foram enviadas.");
+                  $('#smallResponse').replaceWith("Em alguns minutos um de nossos atendentes entrará em contato.");
+                  $("#responseModal").modal({
+                    backdrop: "static", //remove ability to close modal with click
+                    keyboard: false, //remove option to close with keyboard
+                    show: true //Display loader!
+                  });
+              }
+            }
+        
+          })
+        });
+
+        $('#responseModal').click(function(){
+          $("#responseModal").modal("hide");
         });
     });
 
 </script>
 
 
+<!-- <script type = "text/javascript">
+
+  var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+  
+  function autocomplete(inp, arr) {
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        /*close any already open lists of autocompleted values*/
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(a);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+          /*check if the item starts with the same letters as the text field value:*/
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            /*create a DIV element for each matching element:*/
+            b = document.createElement("DIV");
+            /*make the matching letters bold:*/
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            /*insert a input field that will hold the current array item's value:*/
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            /*execute a function when someone clicks on the item value (DIV element):*/
+                b.addEventListener("click", function(e) {
+                /*insert the value for the autocomplete text field:*/
+                inp.value = this.getElementsByTagName("input")[0].value;
+                /*close the list of autocompleted values,
+                (or any other open lists of autocompleted values:*/
+                closeAllLists();
+            });
+            a.appendChild(b);
+          }
+        }
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+          /*If the arrow DOWN key is pressed,
+          increase the currentFocus variable:*/
+          currentFocus++;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 38) { //up
+          /*If the arrow UP key is pressed,
+          decrease the currentFocus variable:*/
+          currentFocus--;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 13) {
+          /*If the ENTER key is pressed, prevent the form from being submitted,*/
+          e.preventDefault();
+          if (currentFocus > -1) {
+            /*and simulate a click on the "active" item:*/
+            if (x) x[currentFocus].click();
+          }
+        }
+    });
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      /*start by removing the "active" class on all items:*/
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      /*add class "autocomplete-active":*/
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      /*a function to remove the "active" class from all autocomplete items:*/
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+    function closeAllLists(elmnt) {
+      /*close all autocomplete lists in the document,
+      except the one passed as an argument:*/
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
+  }
+  
+  </script>
+  
+  <script>
+      autocomplete(document.getElementById("origin"), countries);
+      </script> -->

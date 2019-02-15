@@ -1376,3 +1376,60 @@ a:active,a:focus,a:hover{
         max-width:100%
     }
 }
+
+
+/** SPINNER CREATION **/
+
+.loader {
+    position: relative;
+    text-align: center;
+    margin: 15px auto 35px auto;
+    z-index: 9999;
+    display: block;
+    width: 80px;
+    height: 80px;
+    border: 10px solid #003585;
+    border-radius: 50%;
+    border-top-color: #EF5A04;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+}
+  
+@keyframes spin {
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+  
+@-webkit-keyframes spin {
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+
+/** MODAL STYLING **/
+
+.modal-content {
+    box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.7);
+}
+
+.modal-backdrop.show {
+    opacity: 0.75;
+}
+
+.title-response{
+    background: #000;
+    font-size: 180px;
+    color: #EF5A04;
+}
+
+.small-response{
+    font-size: 13px;
+    color: #999;
+}
+  
+.help-block{
+    font-size: 12px;
+    margin: 0px;
+}
