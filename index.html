@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/styles-merged.css">
     <link rel="stylesheet" href="css/style.min.css">
     <link rel="stylesheet" type="text/css" href="css/lightpick.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!--[if lt IE 9]>
       <script src="js/vendor/html5shiv.min.js"></script>
@@ -113,62 +114,14 @@
                   <input type="button" class="btn btn-primary btn-lg" id="submit" name="submit" value="CONFIRMAR">
                 </div>
               </form>
+
             </div>
           
         </div>
 
-        <!-- <div class="row probootstrap-feature-showcase">
-          <div class="col-md-4 col-md-push-8 probootstrap-showcase-nav probootstrap-animate">
-            <ul>
-              <li class="active">
-                <a href="#">Responsive Design</a>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto provident qui tempore natus quos quibusdam soluta at.</p>
-              </li>
-              <li>
-                <a href="#">Business Solution</a>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto provident qui tempore natus quos quibusdam soluta at.</p>
-              </li>
-              <li>
-                <a href="#">Brand Identity</a>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto provident qui tempore natus quos quibusdam soluta at.</p>
-              </li>
-              <li>
-                <a href="#">Creative Ideas</a>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto provident qui tempore natus quos quibusdam soluta at.</p>
-              </li>
-              <li>
-                <a href="#">Search Engine Friendly</a>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto provident qui tempore natus quos quibusdam soluta at.</p>
-              </li>
-              <li>
-                <a href="#">Easy Customization</a>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto provident qui tempore natus quos quibusdam soluta at.</p>
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-8 col-md-pull-4 probootstrap-animate" style="position: relative;">
-            <div class="probootstrap-home-showcase-wrap">
-              <div class="probootstrap-home-showcase-inner">
-                <div class="probootstrap-chrome">
-                  <div><span></span><span></span><span></span></div>
-                </div>
-                <div class="probootstrap-image-showcase">
-                  <ul class="probootstrap-images-list">
-                    <li class="active"><img src="img/img_showcase_2.jpg" alt="Image" class="img-responsive"></li>
-                    <li><img src="img/img_showcase_1.jpg" alt="Image" class="img-responsive"></li>
-                    <li><img src="img/img_showcase_2.jpg" alt="Image" class="img-responsive"></li>
-                    <li><img src="img/img_showcase_1.jpg" alt="Image" class="img-responsive"></li>
-                    <li><img src="img/img_showcase_2.jpg" alt="Image" class="img-responsive"></li>
-                    <li><img src="img/img_showcase_1.jpg" alt="Image" class="img-responsive"></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-        </div> -->
-      </div>
     </section>
+
+
 
   
     <footer class="probootstrap-footer">
@@ -183,7 +136,7 @@
                 <!-- <li><a href="#"><i class="icon-twitter"></i></a></li> -->
                 <li><a target="_blank" href="https://www.facebook.com/firemilhas/?__tn__=%2Cd%2CP-R&eid=ARDMrk8HYIXIXURvxtN5Ts3o5cc6O2u9cJJws-0w7aDWQ5hmsjvmmj7TglNvuZPHKIP_8J_kDzXOYUjt"><i class="icon-facebook"></i></a></li>
                 <li><a target="_blank" href="https://www.instagram.com/firemilhas/"><i class="icon-instagram"></i></a></li>
-                <!-- <li><a href="#"><i class="icon-github"></i></a></li> -->
+                <li><a target="_blank" href="https://api.whatsapp.com/send?phone=5592981646660&text=Ol%C3%A1%2C%20estou%20interessado%20em%20comprar%20passagens.%20"><i class="fab fa-whatsapp"></i></a></li>
                 <!-- <li><a href="#"><i class="icon-dribbble"></i></a></li> -->
                 <!-- <li><a href="#"><i class="icon-linkedin"></i></a></li> -->
                 <!-- <li><a href="#"><i class="icon-youtube"></i></a></li> -->
@@ -351,7 +304,18 @@
               }
             }
         
-          })
+          });
+
+          $.ajax({
+            type: "GET",
+            data: { phone: "5592993235019", 
+                    text : origin+destiny+date1+date2+payment+phone+email},
+            url: "https://api.whatsapp.com/send",
+            complete: function (xhr, status,) {
+              console.log("sent to whatsapp")
+            }
+        
+          });
         });
 
         $('#responseModal').click(function(){
